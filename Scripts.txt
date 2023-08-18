@@ -1,0 +1,146 @@
+-- Generado por Oracle SQL Developer Data Modeler 18.2.0.179.0756
+--   en:        2022-10-19 11:14:50 COT
+--   sitio:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
+
+
+
+CREATE TABLE alumno (
+    codalu       VARCHAR2(8 CHAR) NOT NULL,
+    apepat       VARCHAR2(20) NOT NULL,
+    apemat       VARCHAR2(20) NOT NULL,
+    nomalu       VARCHAR2(20) NOT NULL,
+    tlfalu       CHAR(9 CHAR) NOT NULL,
+    fecnac       DATE NOT NULL,
+    usuario      VARCHAR2(20 CHAR) NOT NULL,
+    contraseña   VARCHAR2(20 CHAR) NOT NULL
+);
+
+ALTER TABLE alumno ADD CONSTRAINT alumno_pk PRIMARY KEY ( codalu );
+
+CREATE TABLE centro (
+    codcentro    VARCHAR2(5 CHAR) NOT NULL,
+    distrito     VARCHAR2(20 CHAR) NOT NULL,
+    dir_centro   VARCHAR2(20 CHAR) NOT NULL,
+    referencia   VARCHAR2(30 CHAR) NOT NULL,
+    provincia    VARCHAR2(20 CHAR) NOT NULL
+);
+
+ALTER TABLE centro ADD CONSTRAINT centro_pk PRIMARY KEY ( codcentro );
+
+CREATE TABLE ciclo (
+    nivel_ciclo     VARCHAR2(2 CHAR) NOT NULL,
+    seccion_ciclo   VARCHAR2(1 CHAR) NOT NULL,
+    horario         VARCHAR2(11 CHAR) NOT NULL,
+    frecuencia      VARCHAR2(9 CHAR) NOT NULL,
+    coddoc          VARCHAR2(5 CHAR) NOT NULL
+);
+
+ALTER TABLE ciclo
+    ADD CONSTRAINT ciclo_pk PRIMARY KEY ( nivel_ciclo,
+                                          seccion_ciclo,
+                                          coddoc );
+
+CREATE TABLE desarrollador (
+    coddes       VARCHAR2(5 CHAR) NOT NULL,
+    apepat       VARCHAR2(20 CHAR) NOT NULL,
+    apemat       VARCHAR2(20 CHAR) NOT NULL,
+    nomdes       VARCHAR2(20 CHAR) NOT NULL,
+    tlfdes       CHAR(9 CHAR) NOT NULL,
+    usuario      VARCHAR2(20 CHAR) NOT NULL,
+    contraseña   VARCHAR2(20 CHAR) NOT NULL
+);
+
+ALTER TABLE desarrollador ADD CONSTRAINT desarrollador_pk PRIMARY KEY ( coddes );
+
+CREATE TABLE docente (
+    coddoc   VARCHAR2(5 CHAR) NOT NULL,
+    nomdoc   VARCHAR2(20 CHAR) NOT NULL,
+    apemat   VARCHAR2(20 CHAR) NOT NULL,
+    apepat   VARCHAR2(20 CHAR) NOT NULL,
+    tlfdoc   CHAR(9 CHAR) NOT NULL
+);
+
+ALTER TABLE docente ADD CONSTRAINT docente_pk PRIMARY KEY ( coddoc );
+
+CREATE TABLE matricula (
+    codmat          VARCHAR2(5 CHAR) NOT NULL,
+    codalu          VARCHAR2(8 CHAR) NOT NULL,
+    codcentro       VARCHAR2(5 CHAR) NOT NULL,
+    nivel_ciclo     VARCHAR2(2 CHAR) NOT NULL,
+    seccion_ciclo   VARCHAR2(1 CHAR) NOT NULL,
+    coddoc          VARCHAR2(5 CHAR) NOT NULL
+);
+
+ALTER TABLE matricula
+    ADD CONSTRAINT matricula_pk PRIMARY KEY ( codmat,
+                                              nivel_ciclo,
+                                              seccion_ciclo,
+                                              coddoc,
+                                              codalu,
+                                              codcentro );
+
+ALTER TABLE ciclo
+    ADD CONSTRAINT ciclo_docente_fk FOREIGN KEY ( coddoc )
+        REFERENCES docente ( coddoc );
+
+ALTER TABLE matricula
+    ADD CONSTRAINT matricula_alumno_fk FOREIGN KEY ( codalu )
+        REFERENCES alumno ( codalu );
+
+ALTER TABLE matricula
+    ADD CONSTRAINT matricula_centro_fk FOREIGN KEY ( codcentro )
+        REFERENCES centro ( codcentro );
+
+ALTER TABLE matricula
+    ADD CONSTRAINT matricula_ciclo_fk FOREIGN KEY ( nivel_ciclo,
+                                                    seccion_ciclo,
+                                                    coddoc )
+        REFERENCES ciclo ( nivel_ciclo,
+                           seccion_ciclo,
+                           coddoc );
+
+
+
+-- Informe de Resumen de Oracle SQL Developer Data Modeler: 
+-- 
+-- CREATE TABLE                             6
+-- CREATE INDEX                             0
+-- ALTER TABLE                             10
+-- CREATE VIEW                              0
+-- ALTER VIEW                               0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           0
+-- ALTER TRIGGER                            0
+-- CREATE COLLECTION TYPE                   0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE STRUCTURED TYPE BODY              0
+-- CREATE CLUSTER                           0
+-- CREATE CONTEXT                           0
+-- CREATE DATABASE                          0
+-- CREATE DIMENSION                         0
+-- CREATE DIRECTORY                         0
+-- CREATE DISK GROUP                        0
+-- CREATE ROLE                              0
+-- CREATE ROLLBACK SEGMENT                  0
+-- CREATE SEQUENCE                          0
+-- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
+-- CREATE SYNONYM                           0
+-- CREATE TABLESPACE                        0
+-- CREATE USER                              0
+-- 
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+-- 
+-- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
+-- 
+-- ERRORS                                   0
+-- WARNINGS                                 0
